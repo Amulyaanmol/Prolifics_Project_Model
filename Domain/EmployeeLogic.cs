@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -141,6 +143,31 @@ namespace Domain
             return EmployeeIdResult;
         }
 
+        public static ActionResult CheckRoleInEmployee(int roleId)
+        {
+            ActionResult roleResult = new () { IsPositiveResult = true };
+            int count = 0;
+            if (employeeDetails.Count > 0)
+            {
+                foreach (Employee employeeProperties in employeeDetails)
+                    if (employeeProperties.EmployeeRoleId == roleId)
+                        count++;
+                if (count > 0)
+                    roleResult.Message = "Role Id Exists in Employee List";
+                else
+                {
+                    roleResult.Message = "Role is not present in Employee List!";
+                    roleResult.IsPositiveResult = false;
+                }
+            }
+            else
+            {
+                roleResult.IsPositiveResult = false;
+                roleResult.Message = "Empty Employee List!";
+            }
+            return roleResult;
+        }
+
         public static ActionResult SerializeCollection(string filename)
         {
             ActionResult serializeCollectioneResult = new() { IsPositiveResult = true };
@@ -188,5 +215,27 @@ namespace Domain
             return serializeCollectioneResult;
         }
 
+        public static ActionResult SerializeTextFile(string filename)
+        {
+            ActionResult serializeTestFileResult = new() { IsPositiveResult = true };
+            try
+            {
+                if (employeeDetails.Count > 0)
+                {
+                    using TextWriter writer = new StreamWriter(filename);
+                    writer.WriteLine("----Employee Module----\n\nEmployee Id - Employee Name - Employee Contact - Employee Role\n--------------------------------------------------------------");
+                    foreach (var item in employeeDetails)      
+                        writer.WriteLine(string.Format("{0}\t\t{1}\t\t{2}\t\t{3}", item.EmployeeId, item.EmployeeName,item.Contact,item.EmployeeRoleId));
+                }
+                else
+                    serializeTestFileResult.IsPositiveResult = false;
+            }
+            catch (Exception)
+            {
+                serializeTestFileResult.IsPositiveResult = false;
+                serializeTestFileResult.Message = "Error Occured at Employee File Serialization";
+            }
+            return serializeTestFileResult;
+        }
     }
 }

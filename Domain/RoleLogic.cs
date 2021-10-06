@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -98,11 +100,11 @@ namespace Domain
             return roleIdResult;
         }
 
-        public  ActionResult Delete(Role RoleIdProperty)
+        public ActionResult Delete(Role roleIdProperty)
         {
             ActionResult deleteRoleResult = new() { IsPositiveResult = true };
-            roleDetails.RemoveAll(roleProperties => roleProperties.RoleId == RoleIdProperty.RoleId);
-            deleteRoleResult.Message = "\nSuccessfully deleted Role id is - " + RoleIdProperty.RoleId;
+            roleDetails.RemoveAll(roleProperties => roleProperties.RoleId == roleIdProperty.RoleId);
+            deleteRoleResult.Message = "\nSuccessfully deleted Role id is - " + roleIdProperty.RoleId;
             return deleteRoleResult;
         }
 
@@ -130,8 +132,41 @@ namespace Domain
                 serializeCollectioneResult.Message = "Error at SerializeCollection";
                 serializeCollectioneResult.IsPositiveResult = false;
             }
+
             return serializeCollectioneResult;
         }
+    
+        public static ActionResult SerializeTextFile(string filename)
+        {
+            ActionResult serializeTestFileResult = new() { IsPositiveResult = true };
+            try
+            { 
+                if(roleDetails.Count>0)
+                {
+                    //using (StreamWriter writer = new (filename))
+                    //foreach (String s in Lists.verbList)
+                    //tw.WriteLine(s)
+                    // XmlSerializer xsSubmit = new(typeof(RoleLogic))
+                    //var xml = ""
+                    // using TextWriter writer = new StreamWriter(filename)
+                    //writer.WriteLine(xsSubmit)
+                    //TextWriter writer1 = new StreamWriter(filename)
+                    //xml = filename.ToString()
+                    //using Stream stream = File.Open(filename, FileMode.Create)
+                    using TextWriter writer = new StreamWriter(filename);
+                    writer.WriteLine("----Role Module----\n\nRole Id - Role Name\n-------------------");
+                    foreach (var item in roleDetails)    
+                        writer.WriteLine(string.Format("{0}\t\t{1}", item.RoleId, item.RoleName));
+                }
+                else
+                    serializeTestFileResult.IsPositiveResult = false;
+            }
+            catch(Exception)
+            {
+                serializeTestFileResult.IsPositiveResult = false;
+                serializeTestFileResult.Message = "Error Occured at Employee File Serialization";
+            }
+            return serializeTestFileResult;
+        }
     }
-
 }

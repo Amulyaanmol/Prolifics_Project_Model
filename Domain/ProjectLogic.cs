@@ -6,6 +6,8 @@ using Model.Action;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Domain
 {
@@ -167,6 +169,36 @@ namespace Domain
                 serializeCollectioneResult.Message = "Error at Project Serialization";
             }
             return serializeCollectioneResult;
+        }
+
+        public static ActionResult SerializeTextFile(string filename)
+        {
+            ActionResult serializeTestFileResult = new() { IsPositiveResult = true };
+            //bool append = false
+            try
+            {
+                if (projectDetails.Count > 0)
+                {
+                    //XmlSerializer xsSubmit = new(typeof(List<Project>))
+                    //var xml = ""
+                    //using XmlWriter writer = XmlWriter.Create(filename)
+                    //xsSubmit.Serialize(writer, projectDetails)
+                    //TextWriter writer1 = new StreamWriter(filename)
+                    //xml = filename.ToString()
+                    using TextWriter writer = new StreamWriter(filename);
+                    writer.WriteLine("-----PROJECT MODULE-----\n\nProject Id - Project Name - Start Date - End Date - Budget\n----------------------------------------------------------");
+                    foreach (var item in projectDetails)      
+                        writer.WriteLine(string.Format("{0}\t\t{1}\t\t{2}\t\t{3}\t\t{4}", item.ProjectId, item.ProjectName, item.OpenDate.ToShortDateString(), item.CloseDate.ToShortDateString(),item.Budget));
+                }
+                else
+                    serializeTestFileResult.IsPositiveResult = false;
+            }
+            catch (Exception)
+            {
+                serializeTestFileResult.IsPositiveResult = false;
+                serializeTestFileResult.Message = "Error Occured at Employee File Serialization";
+            }
+            return serializeTestFileResult;
         }
     }
 }

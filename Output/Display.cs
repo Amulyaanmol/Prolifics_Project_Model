@@ -10,7 +10,7 @@ namespace Output
         protected Display() { }
         public static int DisplayMainMenu()
         {
-            Console.WriteLine("\n---SELECT ANY OPTION FROM BELOW---\n 1. Project Module\n 2. Employee Module \n 3. Role Module\n 4. Save\n 5. Quit\n");
+            Console.WriteLine("\n---SELECT ANY OPTION FROM BELOW---\n 1. Project Module\n 2. Employee Module \n 3. Role Module\n 4. Save Module\n 5. Quit\n");
             int option = 0;
             try
             {
@@ -31,7 +31,7 @@ namespace Output
                 case 1:
                     try
                     {
-                        Console.Write("\n---PROJECT MODULE---\n a. Add\n b. List All\n c. List By Id\n d. Delete\n e. Return to Main Menu\n\nEnter Your Choice - ");
+                        Console.Write("\n---PROJECT MODULE---\n--------------------\n a. Add\n b. List All\n c. List By Id\n d. Delete\n e. Return to Main Menu\n\nEnter Your Choice - ");
                         char option2 = Convert.ToChar(Console.ReadLine());
                         switch (char.ToLower(option2))
                         {
@@ -69,9 +69,9 @@ namespace Output
                 case 2:
                     try
                     {
-                        Console.Write("\n---EMPLOYEE MODULE---\n a. Add\n b. List All\n c. List By Id\n d. Delete\n e. Return to Main Menu\n\nEnter Your Choice - ");
-                        char option3 = Convert.ToChar(Console.ReadLine());
-                        switch (char.ToLower(option3))
+                        Console.Write("\n---EMPLOYEE MODULE---\n---------------------\n a. Add\n b. List All\n c. List By Id\n d. Delete\n e. Return to Main Menu\n\nEnter Your Choice - ");
+                        char option2 = Convert.ToChar(Console.ReadLine());
+                        switch (char.ToLower(option2))
                         {
                             case 'a':
                                 AddEmployee();
@@ -107,9 +107,9 @@ namespace Output
                 case 3:
                     try
                     {
-                        Console.Write("\n---ROLE MODULE---\n a. Add\n b. List All\n c. List By Id\n d. Delete\n e. Return to Main Menu\n\nEnter Your Choice - ");
-                       char option4 = Convert.ToChar(Console.ReadLine());
-                        switch (char.ToLower(option4))
+                        Console.Write("\n---ROLE MODULE---\n-----------------\n a. Add\n b. List All\n c. List By Id\n d. Delete\n e. Return to Main Menu\n\nEnter Your Choice - ");
+                        char option2 = Convert.ToChar(Console.ReadLine());
+                        switch (char.ToLower(option2))
                         {
                             case 'a':
                                 AddRole();
@@ -143,9 +143,50 @@ namespace Output
                     }
                     break;
                 case 4:
-                    Save();
-                    option1 = DisplayMainMenu();
-                    MainCall(option1);
+                    try
+                    {
+                        Console.Write("\n---SAVE MODULE---\n-----------------\n a. File\n b. DB-ADO\n c. DB-EF\n d. Xml-File\n e. Return to Main Menu\n\nEnter Your Choice - ");
+                        char option2 = Convert.ToChar(Console.ReadLine());
+                        switch (char.ToLower(option2))
+                        {
+                            case 'a':
+                                SaveAsFile();
+                                option1 = DisplayMainMenu();
+                                MainCall(option1);
+                                break;
+                            case 'b':
+                                SaveAsDB_ADOFile();
+                                option1 = DisplayMainMenu();
+                                MainCall(option1);
+                                break;
+                            case 'c':
+                                SaveAsDB_EFFile();
+                                option1 = DisplayMainMenu();
+                                MainCall(option1);
+                                break;
+                            case 'd':
+                                SaveAsXmlFile();
+                                option1 = DisplayMainMenu();
+                                MainCall(option1);
+                                break;
+                            case 'e':
+                                Console.WriteLine("Redirecting you to Main Menu...");
+                                option1 = DisplayMainMenu();
+                                MainCall(option1);
+                                break;
+                            default:
+                                Console.WriteLine("Oops! Incorrect Choice...");
+                                option1 = DisplayMainMenu();
+                                MainCall(option1);
+                                break;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Oops! Incorrect Choice...");
+                        option1 = DisplayMainMenu();
+                        MainCall(option1);
+                    }
                     break;
                 case 5:
                     Console.WriteLine("Byeeeeeeeeee!!!!!!!!!");
@@ -730,7 +771,6 @@ namespace Output
         {
             Role role = new();
             RoleLogic roleLogic = new();
-            EmployeeLogic employeeLogic = new();
             var displayRoles = roleLogic.DisplayAll();
             if (displayRoles.IsPositiveResult)
             {
@@ -742,21 +782,14 @@ namespace Output
                 var roleIdResult = RoleLogic.CheckRoleId(role.RoleId);
                 if (roleIdResult.IsPositiveResult)
                 {
-                    var displayEmployees = employeeLogic.DisplayAll();
-                    if (displayEmployees.IsPositiveResult)
+                    var roleResult = EmployeeLogic.CheckRoleInEmployee(role.RoleId);
+                    if (!roleResult.IsPositiveResult)
                     {
-
-                        foreach (Employee employeeProperties in displayEmployees.Results)
-                        {
-                            var getEmployeeIdResult = EmployeeLogic.GetEmployeeId(employeeProperties.EmployeeId);
-                            if (getEmployeeIdResult.EmployeeRoleId != 0)
-                                EmployeeLogic.DeleteRoleFromEmployee(role.RoleId, employeeProperties.EmployeeId);
-                            else
-                                Console.WriteLine("\nThe given Employee id - " + employeeProperties.EmployeeId + "  Doesn't exists");
-                        }
+                        var result = roleLogic.Delete(role);
+                        Console.WriteLine(result.Message);
                     }
                     else
-                        Console.WriteLine("Noting to Delete in Employee List.....!!!!!");
+                        Console.WriteLine(roleResult.Message);
                 }
                 else
                     Console.WriteLine("Role Id Doesn't Exists....");
@@ -781,17 +814,37 @@ namespace Output
             return displayRoles.IsPositiveResult;
         }
 
-        public static void Save()
+        public static void SaveAsXmlFile()
         {
-            
             var employeeSerialize = EmployeeLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.xml");
             var projectSerialize=ProjectLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.xml");
             var roleSerialize = RoleLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.xml");
             if(employeeSerialize.IsPositiveResult||projectSerialize.IsPositiveResult||roleSerialize.IsPositiveResult)
-                Console.WriteLine("-----PPM Details Saved Successfully-----");
+                Console.WriteLine("\n-----PPM Details Saved Successfully-----");
             else
-                Console.WriteLine("-----PPM Output not Saved-----");
+                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved Successfully-----");
         }
-       
+
+        private static void SaveAsDB_ADOFile()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void SaveAsDB_EFFile()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void SaveAsFile()
+        {
+            var employeeSerialize = EmployeeLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.txt");
+            var projectSerialize = ProjectLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.txt");
+            var roleSerialize = RoleLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.txt");
+            if (employeeSerialize.IsPositiveResult || projectSerialize.IsPositiveResult || roleSerialize.IsPositiveResult)
+                Console.WriteLine("\n-----PPM Details Saved as File Successfully-----");
+            else
+                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as File-----");
+        }
+
     }
 }
