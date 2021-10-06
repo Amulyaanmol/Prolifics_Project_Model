@@ -5,6 +5,7 @@ using System.Linq;
 using Model.Action;
 using System.Xml.Serialization;
 using System.IO;
+using System.Xml;
 
 namespace Domain
 {
@@ -146,14 +147,25 @@ namespace Domain
         public static ActionResult SerializeCollection(string filename)
         {
             ActionResult serializeCollectioneResult = new() { IsPositiveResult = true };
-            if (projectDetails.Count > 0)
+            try
             {
-                XmlSerializer x = new(typeof(List<Project>));
-                TextWriter writer = new StreamWriter(filename);
-                x.Serialize(writer, projectDetails);
+                if (projectDetails.Count > 0)
+                {
+                    XmlSerializer xsSubmit = new(typeof(List<Project>));
+                    var xml = "";
+                    using XmlWriter writer = XmlWriter.Create(filename);
+                    xsSubmit.Serialize(writer, projectDetails);
+                    //TextWriter writer1 = new StreamWriter(filename)
+                    xml = filename.ToString();
+                }
+                else
+                    serializeCollectioneResult.IsPositiveResult = false;
             }
-            else
+            catch (Exception)
+            {
                 serializeCollectioneResult.IsPositiveResult = false;
+                serializeCollectioneResult.Message = "Error at Project Serialization";
+            }
             return serializeCollectioneResult;
         }
     }

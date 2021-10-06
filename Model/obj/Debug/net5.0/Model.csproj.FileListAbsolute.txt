@@ -9,3 +9,15 @@ C:\Users\91707\source\repos\PPM5\Model\obj\Debug\net5.0\Model.csproj.CoreCompile
 C:\Users\91707\source\repos\PPM5\Model\obj\Debug\net5.0\Model.dll
 C:\Users\91707\source\repos\PPM5\Model\obj\Debug\net5.0\ref\Model.dll
 C:\Users\91707\source\repos\PPM5\Model\obj\Debug\net5.0\Model.pdb
+C:\Users\91707\source\Prolifics_Project_Model\Model\bin\Debug\net5.0\Model.deps.json
+C:\Users\91707\source\Prolifics_Project_Model\Model\bin\Debug\net5.0\Model.dll
+C:\Users\91707\source\Prolifics_Project_Model\Model\bin\Debug\net5.0\ref\Model.dll
+C:\Users\91707\source\Prolifics_Project_Model\Model\bin\Debug\net5.0\Model.pdb
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.csproj.AssemblyReference.cache
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.AssemblyInfoInputs.cache
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.AssemblyInfo.cs
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.dll
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\ref\Model.dll
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.pdb

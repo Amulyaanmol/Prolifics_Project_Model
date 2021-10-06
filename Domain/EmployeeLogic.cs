@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Domain
@@ -143,14 +144,47 @@ namespace Domain
         public static ActionResult SerializeCollection(string filename)
         {
             ActionResult serializeCollectioneResult = new() { IsPositiveResult = true };
-            if (employeeDetails.Count > 0)
+            try
             {
-                using var stream = new FileStream(filename, FileMode.CreateNew);
-                var xmlSerilizer = new XmlSerializer(typeof(List<Employee>));
-                xmlSerilizer.Serialize(stream, employeeDetails);
+                if (employeeDetails.Count > 0)
+                {
+                    //using var stream = new FileStream(filename, FileMode.CreateNew)
+                    //var xmlSerilizer = new XmlSerializer(typeof(List<Employee>))
+                    //xmlSerilizer.Serialize(stream, employeeDetails)
+
+                    // TextWriter writer = new StreamWriter(filename)
+                    //xsSubmit.Serialize(writer, employeeDetails)
+                    //XmlSerializer  x= new (typeof(MyObject))
+                    //var subReq = new MyObject()
+                    XmlSerializer xsSubmit = new(typeof(List<Employee>));
+                    var xml = "";
+                    using XmlWriter writer = XmlWriter.Create(filename);
+                    xsSubmit.Serialize(writer, employeeDetails);
+                    //TextWriter writer1 = new StreamWriter(filename)
+                    xml = filename.ToString();
+                    //try
+                    //
+                    //    var xmlserializer = new XmlSerializer(typeof(T))
+                    //    var stringWriter = new StringWriter()
+                    //    using (var writer = XmlWriter.Create(stringWriter))
+                    //    
+                    //        xmlserializer.Serialize(writer, value)
+                    //        return stringWriter.ToString()
+                    //    
+                    //
+                    //catch Exception ex
+                    //
+                    //    throw new Exception("An error occurred", ex)
+                    //
+                }
+                else
+                    serializeCollectioneResult.IsPositiveResult = false;
             }
-            else
+            catch (Exception)
+            {
+                serializeCollectioneResult.Message = "Error at Employee Serialization";
                 serializeCollectioneResult.IsPositiveResult = false;
+            }
             return serializeCollectioneResult;
         }
 

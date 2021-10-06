@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Domain
@@ -108,16 +109,27 @@ namespace Domain
         public static ActionResult SerializeCollection(string filename)
         {
             ActionResult serializeCollectioneResult = new() { IsPositiveResult = true };
-            if (roleDetails.Count > 0)
+            try
             {
-                // Note that only the collection is serialized -- not the
-                // CollectionName or any other public property of the class.
-                XmlSerializer x = new(typeof(List<Role>));
-                TextWriter writer = new StreamWriter(filename);
-                x.Serialize(writer, roleDetails);
+                if (roleDetails.Count > 0)
+                {
+                    //XmlSerializer x = new(typeof(List<Role>))
+                    //x.Serialize(writer, roleDetails)
+                    XmlSerializer xsSubmit = new(typeof(List<Role>));
+                    var xml = "";
+                    using XmlWriter writer = XmlWriter.Create(filename);
+                    xsSubmit.Serialize(writer, roleDetails);
+                    //TextWriter writer1 = new StreamWriter(filename)
+                    xml = filename.ToString();
+                }
+                else
+                    serializeCollectioneResult.IsPositiveResult = false;
             }
-            else
+            catch (Exception)
+            {
+                serializeCollectioneResult.Message = "Error at SerializeCollection";
                 serializeCollectioneResult.IsPositiveResult = false;
+            }
             return serializeCollectioneResult;
         }
     }

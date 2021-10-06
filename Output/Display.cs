@@ -783,13 +783,14 @@ namespace Output
 
         public static void Save()
         {
-            var employeeSerialize = EmployeeLogic.SerializeCollection(@"C:\Users\91707\source\repos\PPM5\Model\AppData\Employee.xml");
-            var projectSerialize=ProjectLogic.SerializeCollection(@"C:\Users\91707\source\repos\PPM5\Model\AppData\Project.xml");
-            var roleSerialize = RoleLogic.SerializeCollection(@"C:\Users\91707\source\repos\PPM5\Model\AppData\Role.xml");
-            if (employeeSerialize.IsPositiveResult || projectSerialize.IsPositiveResult || roleSerialize.IsPositiveResult)
-                Console.WriteLine("One of File Successfully Saved Data");
+            
+            var employeeSerialize = EmployeeLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.xml");
+            var projectSerialize=ProjectLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.xml");
+            var roleSerialize = RoleLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.xml");
+            if(employeeSerialize.IsPositiveResult||projectSerialize.IsPositiveResult||roleSerialize.IsPositiveResult)
+                Console.WriteLine("-----PPM Details Saved Successfully-----");
             else
-                Console.WriteLine("not Saved");
+                Console.WriteLine("-----PPM Output not Saved-----");
         }
        
     }
