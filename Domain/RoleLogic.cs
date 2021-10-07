@@ -2,10 +2,12 @@
 using Model.Action;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -108,7 +110,7 @@ namespace Domain
             return deleteRoleResult;
         }
 
-        public static ActionResult SerializeCollection(string filename)
+        public static ActionResult SerializeXMLFile(string filename)
         {
             ActionResult serializeCollectioneResult = new() { IsPositiveResult = true };
             try
@@ -168,5 +170,58 @@ namespace Domain
             }
             return serializeTestFileResult;
         }
+
+        public static ActionResult SerializeJSONFile(string filename)
+        {
+            ActionResult serializeADOFileResult = new() { IsPositiveResult = true };
+            try
+            {
+                if (roleDetails.Count > 0)
+                {
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    string jsonString = JsonSerializer.Serialize(roleDetails,options);
+                    File.WriteAllText(filename, jsonString);
+                    Console.WriteLine(File.ReadAllText(filename));
+                }
+                else
+                    serializeADOFileResult.IsPositiveResult = false;
+            }
+            catch (Exception)
+            {
+                serializeADOFileResult.IsPositiveResult = false;
+                serializeADOFileResult.Message = "Error Occured at Employee File Serialization";
+            }
+            return serializeADOFileResult;
+        }
+        public static ActionResult SerializeADOFile()
+        {
+            ActionResult serializaAdoResult = new() { IsPositiveResult = true };
+            try
+            {
+                string connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+               
+                string queryString = "INSERT INTO dbo.RoleTable(Id,RoleName) VALUES (@Id,@RoleName)";
+                using SqlConnection sqlConnection = new(connectionString);
+                sqlConnection.Open();
+                foreach (Role roleProperties in roleDetails)
+                {
+                    using SqlCommand sqlCommand = new(queryString, sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = roleProperties.RoleId;
+                    sqlCommand.Parameters.AddWithValue("@RoleName", SqlDbType.VarChar).Value = roleProperties.RoleName;
+                    int result = sqlCommand.ExecuteNonQuery();
+                    if (result < 0)
+                        serializaAdoResult.Message = "Error inserting data into Database!";
+                }
+                sqlConnection.Close();
+                serializaAdoResult.IsPositiveResult = true;
+            }
+            catch (Exception e)
+            {
+                serializaAdoResult.IsPositiveResult = false;
+                Debug.WriteLine(e.Message);
+            }
+            return serializaAdoResult;
+        }
+
     }
 }

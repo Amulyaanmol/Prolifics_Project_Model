@@ -145,14 +145,37 @@ namespace Output
                 case 4:
                     try
                     {
-                        Console.Write("\n---SAVE MODULE---\n-----------------\n a. File\n b. DB-ADO\n c. DB-EF\n d. Xml-File\n e. Return to Main Menu\n\nEnter Your Choice - ");
+                        Console.Write("\n---SAVE MODULE---\n-----------------\n a. File\n b. DB-ADO\n c. DB-EF\n d. Return to Main Menu\n\nEnter Your Choice - ");
                         char option2 = Convert.ToChar(Console.ReadLine());
                         switch (char.ToLower(option2))
                         {
                             case 'a':
-                                SaveAsFile();
-                                option1 = DisplayMainMenu();
-                                MainCall(option1);
+                                Console.Write("\n 1. Text File\n 2. JSON File\n 3. XML File\n\nEnter Your Preferred File Type - ");
+                                int file = Convert.ToInt32(Console.ReadLine());
+                                if (file == 1)
+                                {
+                                    SaveAsFile();
+                                    option1 = DisplayMainMenu();
+                                    MainCall(option1);
+                                }
+                                else if(file==2)
+                                {
+                                    SaveAsJSONFile();
+                                    option1 = DisplayMainMenu();
+                                    MainCall(option1);
+                                }
+                                else if(file==3)
+                                {
+                                    SaveAsXmlFile();
+                                    option1 = DisplayMainMenu();
+                                    MainCall(option1);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Oops! Incorrect Choice...");
+                                    option1 = DisplayMainMenu();
+                                    MainCall(option1);
+                                }
                                 break;
                             case 'b':
                                 SaveAsDB_ADOFile();
@@ -165,12 +188,8 @@ namespace Output
                                 MainCall(option1);
                                 break;
                             case 'd':
-                                SaveAsXmlFile();
-                                option1 = DisplayMainMenu();
-                                MainCall(option1);
-                                break;
-                            case 'e':
                                 Console.WriteLine("Redirecting you to Main Menu...");
+                                SaveAsJSONFile();
                                 option1 = DisplayMainMenu();
                                 MainCall(option1);
                                 break;
@@ -199,7 +218,7 @@ namespace Output
                     break;
             }
         }
-        
+
         public static bool AddEmployeeToProject(int _projectId)
         {
             Employee employeeId = new();
@@ -816,18 +835,33 @@ namespace Output
 
         public static void SaveAsXmlFile()
         {
-            var employeeSerialize = EmployeeLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.xml");
-            var projectSerialize=ProjectLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.xml");
-            var roleSerialize = RoleLogic.SerializeCollection(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.xml");
+            var employeeSerialize = EmployeeLogic.SerializeXMLFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.xml");
+            var projectSerialize=ProjectLogic.SerializeXMLFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.xml");
+            var roleSerialize = RoleLogic.SerializeXMLFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.xml");
             if(employeeSerialize.IsPositiveResult||projectSerialize.IsPositiveResult||roleSerialize.IsPositiveResult)
                 Console.WriteLine("\n-----PPM Details Saved Successfully-----");
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved Successfully-----");
         }
 
+        private static void SaveAsJSONFile()
+        {
+            var roleSerialize = RoleLogic.SerializeJSONFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.json");
+            var projectSerialize = ProjectLogic.SerializeJSONFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.json");
+            var employeeSerialize = EmployeeLogic.SerializeJSONFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.json");
+            if (employeeSerialize.IsPositiveResult || projectSerialize.IsPositiveResult || roleSerialize.IsPositiveResult)
+                Console.WriteLine("\n-----PPM Details Saved as JSON File Successfully-----");
+            else
+                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as JSON File-----");
+        }
+
         private static void SaveAsDB_ADOFile()
         {
-            throw new NotImplementedException();
+            var roleSerialize = RoleLogic.SerializeADOFile();
+            if (roleSerialize.IsPositiveResult)
+                Console.WriteLine("\n-----PPM Details Saved as File Successfully-----");
+            else
+                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as File-----");
         }
 
         private static void SaveAsDB_EFFile()

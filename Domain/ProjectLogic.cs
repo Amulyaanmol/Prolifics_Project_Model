@@ -6,8 +6,7 @@ using Model.Action;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 
 namespace Domain
 {
@@ -146,7 +145,7 @@ namespace Domain
             return addEmployeeToProjectResult;
         }
 
-        public static ActionResult SerializeCollection(string filename)
+        public static ActionResult SerializeXMLFile(string filename)
         {
             ActionResult serializeCollectioneResult = new() { IsPositiveResult = true };
             try
@@ -186,9 +185,18 @@ namespace Domain
                     //TextWriter writer1 = new StreamWriter(filename)
                     //xml = filename.ToString()
                     using TextWriter writer = new StreamWriter(filename);
-                    writer.WriteLine("-----PROJECT MODULE-----\n\nProject Id - Project Name - Start Date - End Date - Budget\n----------------------------------------------------------");
-                    foreach (var item in projectDetails)      
-                        writer.WriteLine(string.Format("{0}\t\t{1}\t\t{2}\t\t{3}\t\t{4}", item.ProjectId, item.ProjectName, item.OpenDate.ToShortDateString(), item.CloseDate.ToShortDateString(),item.Budget));
+                    writer.WriteLine("-----PROJECT MODULE-----");
+                    foreach (var item in projectDetails)
+                    {
+                        writer.WriteLine("\nProject Id - Project Name - Start Date - End Date - Budget\n----------------------------------------------------------");
+                        writer.WriteLine(string.Format("{0} \t{1} \t{2} \t{3} \t{4}\n", item.ProjectId, item.ProjectName, item.OpenDate.ToShortDateString(), item.CloseDate.ToShortDateString(), item.Budget));
+                        if(item.ListEmployee!=null)
+                        {
+                            writer.WriteLine("-----EMPLOYEE DETAILS -----");
+                     foreach (var listitem in item.ListEmployee)
+                                writer.WriteLine(string.Format("Employee Name - {0} Employee Id - {1} Role Id - {2}",listitem.EmployeeName,listitem.EmployeeId,listitem.EmployeeRoleId));
+                        }
+                    }
                 }
                 else
                     serializeTestFileResult.IsPositiveResult = false;
@@ -199,6 +207,29 @@ namespace Domain
                 serializeTestFileResult.Message = "Error Occured at Employee File Serialization";
             }
             return serializeTestFileResult;
+        }
+
+        public static ActionResult SerializeJSONFile(string filename)
+        {
+            ActionResult serializeADOFileResult = new() { IsPositiveResult = true };
+            try
+            {
+                if (projectDetails.Count > 0)
+                {
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    string jsonString = JsonSerializer.Serialize(projectDetails,options);
+                    File.WriteAllText(filename, jsonString);
+                    Console.WriteLine(File.ReadAllText(filename));
+                }
+                else
+                    serializeADOFileResult.IsPositiveResult = false;
+            }
+            catch (Exception)
+            {
+                serializeADOFileResult.IsPositiveResult = false;
+                serializeADOFileResult.Message = "Error Occured at Employee File Serialization";
+            }
+            return serializeADOFileResult;
         }
     }
 }

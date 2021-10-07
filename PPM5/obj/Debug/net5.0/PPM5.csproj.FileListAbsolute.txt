@@ -44,3 +44,10 @@ C:\Users\91707\source\Prolifics_Project_Model\PPM5\obj\Debug\net5.0\PPM5.dll
 C:\Users\91707\source\Prolifics_Project_Model\PPM5\obj\Debug\net5.0\ref\PPM5.dll
 C:\Users\91707\source\Prolifics_Project_Model\PPM5\obj\Debug\net5.0\PPM5.pdb
 C:\Users\91707\source\Prolifics_Project_Model\PPM5\obj\Debug\net5.0\PPM5.genruntimeconfig.cache
+C:\Users\91707\source\Prolifics_Project_Model\PPM5\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\91707\source\Prolifics_Project_Model\PPM5\bin\Debug\net5.0\System.Data.SqlClient.dll
+C:\Users\91707\source\Prolifics_Project_Model\PPM5\bin\Debug\net5.0\runtimes\win-arm64\native\sni.dll
+C:\Users\91707\source\Prolifics_Project_Model\PPM5\bin\Debug\net5.0\runtimes\win-x64\native\sni.dll
+C:\Users\91707\source\Prolifics_Project_Model\PPM5\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
+C:\Users\91707\source\Prolifics_Project_Model\PPM5\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\91707\source\Prolifics_Project_Model\PPM5\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

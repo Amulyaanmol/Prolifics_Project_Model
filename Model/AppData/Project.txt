@@ -1,6 +1,24 @@
 -----PROJECT MODULE-----
-------------------------
+
 Project Id - Project Name - Start Date - End Date - Budget
 ----------------------------------------------------------
- 501		HRM		09-09-2009 00:00:00		09-09-2009		100
- 502		yhfg		09-09-2009 00:00:00		09-09-2009		200
+501 	tf 	09-09-2009 	09-09-2009 	100
+
+Project Id - Project Name - Start Date - End Date - Budget
+----------------------------------------------------------
+502 	rt 	09-09-2009 	09-09-2009 	200
+-------------EMPLOYEE DETAILS-------------
+Employee Name - tf Employee Id - 5 Role Id - 1
+
+Project Id - Project Name - Start Date - End Date - Budget
+----------------------------------------------------------
+503 	wd 	09-09-2009 	09-09-2009 	300
+-------------EMPLOYEE DETAILS-------------
+Employee Name - tf Employee Id - 5 Role Id - 1
+
+Project Id - Project Name - Start Date - End Date - Budget
+----------------------------------------------------------
+504 	rd 	09-09-2009 	09-09-2009 	400
+-------------EMPLOYEE DETAILS-------------
+Employee Name - tf Employee Id - 5 Role Id - 1
+Employee Name - tf Employee Id - 6 Role Id - 1
