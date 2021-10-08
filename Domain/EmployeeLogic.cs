@@ -269,15 +269,16 @@ namespace Domain
             try
             {
                 string connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
-                string queryString = "INSERT INTO dbo.RoleTable(Id,RoleName) VALUES (@Id,@RoleName)";
+                string queryString = "INSERT INTO dbo.Employee(EmployeeId,Name,Contact,EmployeeRole) VALUES (@EmployeeId,@Name,@Contact,@EmployeeRole)";
                 using SqlConnection sqlConnection = new(connectionString);
                 sqlConnection.Open();
                 foreach (Employee employeeProperties in employeeDetails)
                 {
                     using SqlCommand sqlCommand = new(queryString, sqlConnection);
-                    sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = employeeProperties.EmployeeId;
-                    sqlCommand.Parameters.AddWithValue("@RoleName", SqlDbType.VarChar).Value = employeeProperties.EmployeeName;
+                    sqlCommand.Parameters.AddWithValue("@EmployeeId", SqlDbType.Int).Value = employeeProperties.EmployeeId;
+                    sqlCommand.Parameters.AddWithValue("@Name", SqlDbType.VarChar).Value = employeeProperties.EmployeeName;
+                    sqlCommand.Parameters.AddWithValue("@Contact", SqlDbType.VarChar).Value = employeeProperties.Contact;
+                    sqlCommand.Parameters.AddWithValue("@EmployeeRole", SqlDbType.Int).Value = employeeProperties.EmployeeRoleId;
                     int result = sqlCommand.ExecuteNonQuery();
                     if (result < 0)
                         serializaAdoResult.Message = "Error inserting data into Database!";

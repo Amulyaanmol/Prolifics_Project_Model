@@ -193,13 +193,13 @@ namespace Domain
             }
             return serializeADOFileResult;
         }
+
         public static ActionResult SerializeADOFile()
         {
             ActionResult serializaAdoResult = new() { IsPositiveResult = true };
             try
             {
                 string connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-               
                 string queryString = "INSERT INTO dbo.RoleTable(Id,RoleName) VALUES (@Id,@RoleName)";
                 using SqlConnection sqlConnection = new(connectionString);
                 sqlConnection.Open();

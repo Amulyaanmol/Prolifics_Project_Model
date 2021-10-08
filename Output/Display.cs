@@ -150,7 +150,7 @@ namespace Output
                         switch (char.ToLower(option2))
                         {
                             case 'a':
-                                Console.Write("\n 1. Text File\n 2. JSON File\n 3. XML File\n\nEnter Your Preferred File Type - ");
+                                Console.Write("\n File Options:\n\t\t1. Text File\n\t\t2. JSON File\n\t\t3. XML File\n\nEnter Your Preferred File Type - ");
                                 int file = Convert.ToInt32(Console.ReadLine());
                                 if (file == 1)
                                 {
@@ -158,13 +158,13 @@ namespace Output
                                     option1 = DisplayMainMenu();
                                     MainCall(option1);
                                 }
-                                else if(file==2)
+                                else if(file == 2)
                                 {
                                     SaveAsJSONFile();
                                     option1 = DisplayMainMenu();
                                     MainCall(option1);
                                 }
-                                else if(file==3)
+                                else if(file == 3)
                                 {
                                     SaveAsXmlFile();
                                     option1 = DisplayMainMenu();
@@ -189,7 +189,6 @@ namespace Output
                                 break;
                             case 'd':
                                 Console.WriteLine("Redirecting you to Main Menu...");
-                                SaveAsJSONFile();
                                 option1 = DisplayMainMenu();
                                 MainCall(option1);
                                 break;
@@ -857,11 +856,12 @@ namespace Output
 
         private static void SaveAsDB_ADOFile()
         {
+            var employeeSerialize = EmployeeLogic.SerializeADOFile();
             var roleSerialize = RoleLogic.SerializeADOFile();
-            if (roleSerialize.IsPositiveResult)
-                Console.WriteLine("\n-----PPM Details Saved as File Successfully-----");
+            if (roleSerialize.IsPositiveResult|| employeeSerialize.IsPositiveResult)
+                Console.WriteLine("\n-----PPM Details Saved into ADO Successfully-----");
             else
-                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as File-----");
+                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved into ADO-----");
         }
 
         private static void SaveAsDB_EFFile()
@@ -875,9 +875,9 @@ namespace Output
             var projectSerialize = ProjectLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.txt");
             var roleSerialize = RoleLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.txt");
             if (employeeSerialize.IsPositiveResult || projectSerialize.IsPositiveResult || roleSerialize.IsPositiveResult)
-                Console.WriteLine("\n-----PPM Details Saved as File Successfully-----");
+                Console.WriteLine("\n-----PPM Details Saved as Text File Successfully-----");
             else
-                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as File-----");
+                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");
         }
 
     }
