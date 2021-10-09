@@ -8,6 +8,7 @@ namespace Output
     public class Display
     {
         protected Display() { }
+
         public static int DisplayMainMenu()
         {
             Console.WriteLine("\n---SELECT ANY OPTION FROM BELOW---\n 1. Project Module\n 2. Employee Module \n 3. Role Module\n 4. Save Module\n 5. Quit\n");
@@ -178,7 +179,7 @@ namespace Output
                                 }
                                 break;
                             case 'b':
-                                SaveAsDB_ADOFile();
+                                DBAdo.GetConnection();
                                 option1 = DisplayMainMenu();
                                 MainCall(option1);
                                 break;
@@ -852,16 +853,6 @@ namespace Output
                 Console.WriteLine("\n-----PPM Details Saved as JSON File Successfully-----");
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as JSON File-----");
-        }
-
-        private static void SaveAsDB_ADOFile()
-        {
-            var employeeSerialize = EmployeeLogic.SerializeADOFile();
-            var roleSerialize = RoleLogic.SerializeADOFile();
-            if (roleSerialize.IsPositiveResult|| employeeSerialize.IsPositiveResult)
-                Console.WriteLine("\n-----PPM Details Saved into ADO Successfully-----");
-            else
-                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved into ADO-----");
         }
 
         private static void SaveAsDB_EFFile()

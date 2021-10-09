@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using System.Text.Json;
+using System.Data.SqlClient;
+using System.Data;
+using System.Diagnostics;
 
 namespace Domain
 {
@@ -231,5 +234,40 @@ namespace Domain
             }
             return serializeADOFileResult;
         }
+
+        //public static ActionResult SerializeADOFile(string dbName)
+        //{
+        //    ActionResult serializaAdoResult = new() { IsPositiveResult = true };
+        //    try
+        //    {
+        //        string connectionString = $"Server=(localdb)\\ProjectsV13; Database = {dbName};Integrated security=True;Trusted_Connection=yes";
+        //        string queryString = "INSERT INTO dbo.Employee(EmployeeId,Name,Contact,EmployeeRole) VALUES (@EmployeeId,@Name,@Contact,@EmployeeRole)";
+        //        using SqlConnection sqlConnection = new(connectionString);
+        //        sqlConnection.Open();
+        //        foreach (Project projectProperties in projectDetails)
+        //        {
+        //            using SqlCommand sqlCommand = new(queryString, sqlConnection);
+        //            sqlCommand.Parameters.AddWithValue("@EmployeeId", SqlDbType.Int).Value = employeeProperties.EmployeeId;
+        //            sqlCommand.Parameters.AddWithValue("@Name", SqlDbType.VarChar).Value = employeeProperties.EmployeeName;
+        //            sqlCommand.Parameters.AddWithValue("@Contact", SqlDbType.VarChar).Value = employeeProperties.Contact;
+        //            sqlCommand.Parameters.AddWithValue("@EmployeeRole", SqlDbType.Int).Value = employeeProperties.EmployeeRoleId;
+        //            int result = sqlCommand.ExecuteNonQuery();
+        //            if (result < 0)
+        //                serializaAdoResult.Message = "Error inserting data into Database!";
+        //            else
+        //                serializaAdoResult.Message = "Employee rows Updated Successfully!";
+        //        }
+        //        sqlConnection.Close();
+        //        serializaAdoResult.IsPositiveResult = true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        serializaAdoResult.IsPositiveResult = false;
+        //        Debug.WriteLine(e.Message);
+        //    }
+        //    return serializaAdoResult;
+        //}
+
+
     }
 }

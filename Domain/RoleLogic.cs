@@ -194,23 +194,25 @@ namespace Domain
             return serializeADOFileResult;
         }
 
-        public static ActionResult SerializeADOFile()
+        public static ActionResult SerializeADOFile(string database)
         {
             ActionResult serializaAdoResult = new() { IsPositiveResult = true };
             try
             {
-                string connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-                string queryString = "INSERT INTO dbo.RoleTable(Id,RoleName) VALUES (@Id,@RoleName)";
+                string connectionString = $"Server=(localdb)\\ProjectsV13; Database = {database};Integrated security=True;Trusted_Connection=yes";
+                string queryString = "INSERT INTO dbo.Role(RoleId,RoleName) VALUES (@RoleId,@RoleName)";
                 using SqlConnection sqlConnection = new(connectionString);
                 sqlConnection.Open();
                 foreach (Role roleProperties in roleDetails)
                 {
                     using SqlCommand sqlCommand = new(queryString, sqlConnection);
-                    sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = roleProperties.RoleId;
+                    sqlCommand.Parameters.AddWithValue("@RoleId", SqlDbType.Int).Value = roleProperties.RoleId;
                     sqlCommand.Parameters.AddWithValue("@RoleName", SqlDbType.VarChar).Value = roleProperties.RoleName;
                     int result = sqlCommand.ExecuteNonQuery();
                     if (result < 0)
                         serializaAdoResult.Message = "Error inserting data into Database!";
+                    else
+                        serializaAdoResult.Message = "Role rows Updated Successfully!";
                 }
                 sqlConnection.Close();
                 serializaAdoResult.IsPositiveResult = true;

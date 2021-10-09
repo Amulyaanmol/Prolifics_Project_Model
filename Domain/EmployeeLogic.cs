@@ -263,12 +263,12 @@ namespace Domain
             return serializeADOFileResult;
         }
 
-        public static ActionResult SerializeADOFile()
+        public static ActionResult SerializeADOFile(string dbName)
         {
             ActionResult serializaAdoResult = new() { IsPositiveResult = true };
             try
             {
-                string connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                string connectionString = $"Server=(localdb)\\ProjectsV13; Database = {dbName};Integrated security=True;Trusted_Connection=yes";
                 string queryString = "INSERT INTO dbo.Employee(EmployeeId,Name,Contact,EmployeeRole) VALUES (@EmployeeId,@Name,@Contact,@EmployeeRole)";
                 using SqlConnection sqlConnection = new(connectionString);
                 sqlConnection.Open();
@@ -282,6 +282,8 @@ namespace Domain
                     int result = sqlCommand.ExecuteNonQuery();
                     if (result < 0)
                         serializaAdoResult.Message = "Error inserting data into Database!";
+                    else
+                        serializaAdoResult.Message = "Employee rows Updated Successfully!";
                 }
                 sqlConnection.Close();
                 serializaAdoResult.IsPositiveResult = true;
