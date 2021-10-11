@@ -2,4 +2,4 @@
 
 Role Id - Role Name
 -------------------
-1		Hr
+5		Manager

@@ -43,7 +43,7 @@ namespace Domain
                 if (result)
                 {
                     Console.WriteLine("DataBase Already Exists with this Name : " + userName);
-                    Console.WriteLine(@"Do you want to use Existing Database? Y\N");
+                    Console.Write(@"Do you want to use Existing Database? Y\N : ");
                     char choice1 = Console.ReadKey().KeyChar;
                     Console.Write("\n");
                     switch (char.ToUpper(choice1))
@@ -169,12 +169,16 @@ namespace Domain
                 object projectDropResult = projectDrop.ExecuteScalar();
                 if (projectDropResult == null)
                 {
-                    SqlCommand createCommand = new("CREATE TABLE Project (ProjectId int NOT NULL,ProjectName varchar(50),OpenDate datetime, CloseDate datetime,Budget decimal,EmployeeId int,EmployeeName varchar(50),EmployeeRole int NOT NULL,PRIMARY KEY (ProjectId))", myCon);
+                    SqlCommand createCommand = new("CREATE TABLE Project (ProjectId int NOT NULL,ProjectName varchar(50),OpenDate Date, CloseDate Date,Budget Decimal,EmployeeId int,EmployeeName varchar(50),EmployeeRole int NOT NULL,PRIMARY KEY (ProjectId))", myCon);
                     object projectCreate = createCommand.ExecuteNonQuery();
                     if (projectCreate != null)
                     {
-                        Console.WriteLine("Project Table Created Successfully");
-                        
+                        var serializeResult = ProjectLogic.SerializeADOFile(database);
+                        if (serializeResult.IsPositiveResult)
+                            Console.WriteLine(serializeResult.Message);
+                        else
+                            Console.WriteLine(serializeResult.Message + "");
+
                     }
                     else
                         Console.WriteLine("Project not Created");

@@ -1,0 +1,50 @@
+[
+  {
+    "ProjectId": 501,
+    "ProjectName": "HRM",
+    "OpenDate": "2009-09-09T00:00:00",
+    "CloseDate": "2009-09-09T00:00:00",
+    "Budget": 100,
+    "ListEmployee": [
+      {
+        "EmployeeName": "Ca",
+        "EmployeeId": 4,
+        "Contact": null,
+        "EmployeeRoleId": 5
+      },
+      {
+        "EmployeeName": "Gk",
+        "EmployeeId": 5,
+        "Contact": null,
+        "EmployeeRoleId": 5
+      },
+      {
+        "EmployeeName": "Ac",
+        "EmployeeId": 28,
+        "Contact": null,
+        "EmployeeRoleId": 5
+      }
+    ]
+  },
+  {
+    "ProjectId": 502,
+    "ProjectName": "HMS",
+    "OpenDate": "2009-09-09T00:00:00",
+    "CloseDate": "2009-09-09T00:00:00",
+    "Budget": 200,
+    "ListEmployee": [
+      {
+        "EmployeeName": "Ca",
+        "EmployeeId": 4,
+        "Contact": null,
+        "EmployeeRoleId": 5
+      },
+      {
+        "EmployeeName": "Ac",
+        "EmployeeId": 28,
+        "Contact": null,
+        "EmployeeRoleId": 5
+      }
+    ]
+  }
+]

@@ -340,7 +340,7 @@ namespace Output
                 Console.WriteLine("Please provide correct Input....Redirecting you to Project Module");
                 MainCall(1);
             }
-            Console.WriteLine(@"Do you want to add more Projects? Y\N");
+            Console.Write(@"Do you want to add more Projects? Y\N : ");
             char choice1 = Console.ReadKey().KeyChar;
             Console.Write("\n");
             switch (char.ToUpper(choice1))
@@ -365,24 +365,25 @@ namespace Output
             var displayProjects = projectLogic.DisplayAll();
             if (displayProjects.IsPositiveResult)
             {
-                Console.WriteLine("--Projects Details with Employee Assigned by Role are--");
+                Console.WriteLine("\n--Projects Details with Employee Assigned by Role are--\n");
                 foreach (Project projectProperties in displayProjects.Results)
                 {
-                    Console.WriteLine("\nProject ID - Project Name -  Project Start Date - Project End Date - Project Budget\n--------------------------------------------------------------------------------------");
+                    Console.Write("Project ID - Project Name -  Project Start Date - Project End Date - Project Budget\n--------------------------------------------------------------------------------------\n");
                     Console.WriteLine(projectProperties.ProjectId + "\t\t" + projectProperties.ProjectName + "\t\t" + projectProperties.OpenDate.ToShortDateString() + "\t" +
                                         projectProperties.CloseDate.ToShortDateString() + "\t" + projectProperties.Budget);
                     if (projectProperties.ListEmployee != null)
                     {
-                        Console.WriteLine("\n\nEmployee Name - Employee Id - Role Id\n------------------------------------------");
+                        Console.WriteLine("\nEmployee Name - Employee Id - Role Id\n------------------------------------------");
                         foreach (Employee employeeProperties in projectProperties.ListEmployee)
                             Console.WriteLine(employeeProperties.EmployeeName + "\t\t" + employeeProperties.EmployeeId + "\t\t" + employeeProperties.EmployeeRoleId);
-                    }
+                        Console.WriteLine("--------------------------------------------------------------------------------------\n\n");
+                    } 
                     else
                         Console.WriteLine("\nEmployee list is empty....");
                 }
             }
             else
-                Console.WriteLine("Noting to View Project Details.....!!!!! ");
+                Console.WriteLine("Noting to View in Project Details.....!!!!! ");
         }
 
         public static void DisplayProjectListById()
@@ -453,7 +454,7 @@ namespace Output
             }
             else
                 Console.WriteLine("\n.....Project List is Empty.....\n");
-            Console.WriteLine(@"Do you want to Delete more Projects? Y\N");
+            Console.Write(@"Do you want to Delete more Projects? Y\N : ");
             char choice = Console.ReadKey().KeyChar;
             Console.WriteLine("\n");
             switch (char.ToUpper(choice))
@@ -543,7 +544,7 @@ namespace Output
             }
             else
                 Console.WriteLine("\nAdding Employee Details is not Successful\nThe given Role id Doesn't Exists - " + employee.EmployeeRoleId);
-            Console.WriteLine(@"Do you want to add more Employee? Y\N");
+            Console.Write(@"Do you want to add more Employee? Y\N : ");
             char choice = Console.ReadKey().KeyChar;
             Console.Write("\n");
             switch (char.ToUpper(choice))
@@ -635,7 +636,7 @@ namespace Output
             }
             else
                 Console.WriteLine("\n.....Employee List is Empty.....\n");
-            Console.WriteLine(@"Do you want to Delete more Employees? Y\N");
+            Console.Write(@"Do you want to Delete more Employees? Y\N : ");
             char choice = Console.ReadKey().KeyChar;
             Console.WriteLine("\n");
             switch (char.ToUpper(choice))
@@ -715,12 +716,10 @@ namespace Output
             RoleLogic roleLogic = new();
             var addRoleResult = roleLogic.Insert(role);
             if (!addRoleResult.IsPositiveResult)
-            {
                 Console.WriteLine("\nAdding Role Details is not Successful\nRole Id or Role Name Already Exists");
-            }
             else
                 Console.WriteLine(addRoleResult.Message);
-            Console.WriteLine(@"Do you want to add more Roles? Y\N");
+            Console.Write(@"Do you want to add more Roles? Y\N : ");
             char choice = Console.ReadKey().KeyChar;
             Console.WriteLine("\n");
             switch (char.ToUpper(choice))
@@ -815,7 +814,7 @@ namespace Output
             }
             else
                 Console.WriteLine("\n.....Role List is Empty.....\n");
-            Console.WriteLine(@"Do you want to Delete more Roles? Y\N");
+            Console.Write(@"Do you want to Delete more Roles? Y\N : ");
             char choice = Console.ReadKey().KeyChar;
             switch (char.ToUpper(choice))
             {

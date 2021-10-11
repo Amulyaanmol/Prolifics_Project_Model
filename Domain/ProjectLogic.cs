@@ -61,7 +61,7 @@ namespace Domain
             return displayProjectResults;
         }
 
-        public  Project DisplayById(int id)
+        public Project DisplayById(int id)
         {
             Project project = new();
             if (projectDetails.Exists(projectProperties => projectProperties.ProjectId == id))
@@ -193,11 +193,11 @@ namespace Domain
                     {
                         writer.WriteLine("\nProject Id - Project Name - Start Date - End Date - Budget\n----------------------------------------------------------");
                         writer.WriteLine(string.Format("{0} \t{1} \t{2} \t{3} \t{4}\n", item.ProjectId, item.ProjectName, item.OpenDate.ToShortDateString(), item.CloseDate.ToShortDateString(), item.Budget));
-                        if(item.ListEmployee!=null)
+                        if (item.ListEmployee != null)
                         {
                             writer.WriteLine("-----EMPLOYEE DETAILS -----");
-                     foreach (var listitem in item.ListEmployee)
-                                writer.WriteLine(string.Format("Employee Name - {0} Employee Id - {1} Role Id - {2}",listitem.EmployeeName,listitem.EmployeeId,listitem.EmployeeRoleId));
+                            foreach (var listitem in item.ListEmployee)
+                                writer.WriteLine(string.Format("Employee Name - {0} Employee Id - {1} Role Id - {2}", listitem.EmployeeName, listitem.EmployeeId, listitem.EmployeeRoleId));
                         }
                     }
                 }
@@ -220,7 +220,7 @@ namespace Domain
                 if (projectDetails.Count > 0)
                 {
                     var options = new JsonSerializerOptions { WriteIndented = true };
-                    string jsonString = JsonSerializer.Serialize(projectDetails,options);
+                    string jsonString = JsonSerializer.Serialize(projectDetails, options);
                     File.WriteAllText(filename, jsonString);
                     Console.WriteLine(File.ReadAllText(filename));
                 }
@@ -235,39 +235,48 @@ namespace Domain
             return serializeADOFileResult;
         }
 
-        //public static ActionResult SerializeADOFile(string dbName)
-        //{
-        //    ActionResult serializaAdoResult = new() { IsPositiveResult = true };
-        //    try
-        //    {
-        //        string connectionString = $"Server=(localdb)\\ProjectsV13; Database = {dbName};Integrated security=True;Trusted_Connection=yes";
-        //        string queryString = "INSERT INTO dbo.Employee(EmployeeId,Name,Contact,EmployeeRole) VALUES (@EmployeeId,@Name,@Contact,@EmployeeRole)";
-        //        using SqlConnection sqlConnection = new(connectionString);
-        //        sqlConnection.Open();
-        //        foreach (Project projectProperties in projectDetails)
-        //        {
-        //            using SqlCommand sqlCommand = new(queryString, sqlConnection);
-        //            sqlCommand.Parameters.AddWithValue("@EmployeeId", SqlDbType.Int).Value = employeeProperties.EmployeeId;
-        //            sqlCommand.Parameters.AddWithValue("@Name", SqlDbType.VarChar).Value = employeeProperties.EmployeeName;
-        //            sqlCommand.Parameters.AddWithValue("@Contact", SqlDbType.VarChar).Value = employeeProperties.Contact;
-        //            sqlCommand.Parameters.AddWithValue("@EmployeeRole", SqlDbType.Int).Value = employeeProperties.EmployeeRoleId;
-        //            int result = sqlCommand.ExecuteNonQuery();
-        //            if (result < 0)
-        //                serializaAdoResult.Message = "Error inserting data into Database!";
-        //            else
-        //                serializaAdoResult.Message = "Employee rows Updated Successfully!";
-        //        }
-        //        sqlConnection.Close();
-        //        serializaAdoResult.IsPositiveResult = true;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        serializaAdoResult.IsPositiveResult = false;
-        //        Debug.WriteLine(e.Message);
-        //    }
-        //    return serializaAdoResult;
-        //}
-
+        public static ActionResult SerializeADOFile(string dbName)
+        {
+            ActionResult serializaAdoResult = new() { IsPositiveResult = true };
+            try
+            {
+                string connectionString = $"Server=(localdb)\\ProjectsV13; Database = {dbName};Integrated security=True;Trusted_Connection=yes";
+                string addProjectValues = "INSERT INTO dbo.Project(ProjectId,ProjectName,OpenDate,CloseDate,Budget,EmployeeId,EmployeeName,EmployeeRole) VALUES (@ProjectId,@ProjectName,@OpenDate,@CloseDate,@Budget,@EmployeeId,@EmployeeName,@EmployeeRole)";
+                using SqlConnection sqlConnection = new(connectionString);
+                sqlConnection.Open();
+                foreach (Project projectProperties in projectDetails)
+                {
+                    using SqlCommand sqlProjectCommand = new(addProjectValues, sqlConnection);
+                    
+                    if (projectProperties.ListEmployee != null)
+                    {
+                        foreach (Employee employeeProperties in projectProperties.ListEmployee)
+                        {
+                            sqlProjectCommand.Parameters.AddWithValue("@ProjectId", SqlDbType.Int).Value = projectProperties.ProjectId;
+                            sqlProjectCommand.Parameters.AddWithValue("@ProjectName", SqlDbType.VarChar).Value = projectProperties.ProjectName;
+                            sqlProjectCommand.Parameters.AddWithValue("@OpenDate", SqlDbType.Date).Value = projectProperties.OpenDate;
+                            sqlProjectCommand.Parameters.AddWithValue("@CloseDate", SqlDbType.Date).Value = projectProperties.CloseDate;
+                            sqlProjectCommand.Parameters.AddWithValue("@Budget", SqlDbType.Decimal).Value = projectProperties.Budget;
+                            sqlProjectCommand.Parameters.AddWithValue("@EmployeeId", SqlDbType.Int).Value = employeeProperties.EmployeeId;
+                            sqlProjectCommand.Parameters.AddWithValue("@EmployeeName", SqlDbType.VarChar).Value = employeeProperties.EmployeeName;
+                            sqlProjectCommand.Parameters.AddWithValue("@EmployeeRole", SqlDbType.Int).Value = employeeProperties.EmployeeRoleId;
+                            sqlProjectCommand.ExecuteNonQuery();
+                        }
+                        serializaAdoResult.Message = "Project details Added with Employee Details....!!!";
+                    }
+                    else
+                        serializaAdoResult.Message = "Employee Details are Empty!";
+                }
+                sqlConnection.Close();
+                serializaAdoResult.IsPositiveResult = true;
+            }
+            catch (Exception e)
+            {
+                serializaAdoResult.IsPositiveResult = false;
+                Debug.WriteLine(e.Message);
+            }
+            return serializaAdoResult;
+        }
 
     }
 }
