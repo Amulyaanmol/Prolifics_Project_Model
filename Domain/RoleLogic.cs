@@ -16,7 +16,7 @@ namespace Domain
     public class RoleLogic : IEntityOperation<Role>
     {
         static readonly List<Role> roleDetails = new();
-
+        
         public  ActionResult Insert(Role roleProperty)
         {
             ActionResult addRoleResult = new() { IsPositiveResult = true };
@@ -223,6 +223,18 @@ namespace Domain
                 Debug.WriteLine(e.Message);
             }
             return serializaAdoResult;
+        }
+        public static void InsertProduct()
+        {
+           
+            using var db = new EFContext();
+            foreach (Role roleProperties in roleDetails)
+            {
+                roleProperties.RoleId;
+                roleProperties.RoleName;
+                db.Add(roleProperties);
+            }
+            db.SaveChanges();
         }
 
     }

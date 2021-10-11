@@ -169,7 +169,7 @@ namespace Domain
                 object projectDropResult = projectDrop.ExecuteScalar();
                 if (projectDropResult == null)
                 {
-                    SqlCommand createCommand = new("CREATE TABLE Project (ProjectId int NOT NULL,ProjectName varchar(50),OpenDate Date, CloseDate Date,Budget Decimal,EmployeeId int,EmployeeName varchar(50),EmployeeRole int NOT NULL,PRIMARY KEY (ProjectId))", myCon);
+                    SqlCommand createCommand = new("CREATE TABLE Project (ProjectId int NOT NULL,ProjectName varchar(50),OpenDate Date, CloseDate Date,Budget Decimal,EmployeeId int,EmployeeName varchar(50),EmployeeRole int NOT NULL)", myCon);
                     object projectCreate = createCommand.ExecuteNonQuery();
                     if (projectCreate != null)
                     {
@@ -178,7 +178,6 @@ namespace Domain
                             Console.WriteLine(serializeResult.Message);
                         else
                             Console.WriteLine(serializeResult.Message + "");
-
                     }
                     else
                         Console.WriteLine("Project not Created");

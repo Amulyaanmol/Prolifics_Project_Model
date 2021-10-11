@@ -242,16 +242,15 @@ namespace Domain
             {
                 string connectionString = $"Server=(localdb)\\ProjectsV13; Database = {dbName};Integrated security=True;Trusted_Connection=yes";
                 string addProjectValues = "INSERT INTO dbo.Project(ProjectId,ProjectName,OpenDate,CloseDate,Budget,EmployeeId,EmployeeName,EmployeeRole) VALUES (@ProjectId,@ProjectName,@OpenDate,@CloseDate,@Budget,@EmployeeId,@EmployeeName,@EmployeeRole)";
-                using SqlConnection sqlConnection = new(connectionString);
+                SqlConnection sqlConnection = new(connectionString);
                 sqlConnection.Open();
                 foreach (Project projectProperties in projectDetails)
                 {
-                    using SqlCommand sqlProjectCommand = new(addProjectValues, sqlConnection);
-                    
                     if (projectProperties.ListEmployee != null)
                     {
                         foreach (Employee employeeProperties in projectProperties.ListEmployee)
                         {
+                            SqlCommand sqlProjectCommand = new(addProjectValues, sqlConnection);
                             sqlProjectCommand.Parameters.AddWithValue("@ProjectId", SqlDbType.Int).Value = projectProperties.ProjectId;
                             sqlProjectCommand.Parameters.AddWithValue("@ProjectName", SqlDbType.VarChar).Value = projectProperties.ProjectName;
                             sqlProjectCommand.Parameters.AddWithValue("@OpenDate", SqlDbType.Date).Value = projectProperties.OpenDate;
@@ -265,7 +264,7 @@ namespace Domain
                         serializaAdoResult.Message = "Project details Added with Employee Details....!!!";
                     }
                     else
-                        serializaAdoResult.Message = "Employee Details are Empty!";
+                        Console.WriteLine("\nEmployee list is empty....");
                 }
                 sqlConnection.Close();
                 serializaAdoResult.IsPositiveResult = true;

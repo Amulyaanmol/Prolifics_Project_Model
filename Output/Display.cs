@@ -184,7 +184,7 @@ namespace Output
                                 MainCall(option1);
                                 break;
                             case 'c':
-                                SaveAsDB_EFFile();
+                                RoleLogic.InsertProduct();
                                 option1 = DisplayMainMenu();
                                 MainCall(option1);
                                 break;
@@ -376,7 +376,7 @@ namespace Output
                         Console.WriteLine("\nEmployee Name - Employee Id - Role Id\n------------------------------------------");
                         foreach (Employee employeeProperties in projectProperties.ListEmployee)
                             Console.WriteLine(employeeProperties.EmployeeName + "\t\t" + employeeProperties.EmployeeId + "\t\t" + employeeProperties.EmployeeRoleId);
-                        Console.WriteLine("--------------------------------------------------------------------------------------\n\n");
+                        Console.WriteLine("--------------------------------------------------------------------------------------\n");
                     } 
                     else
                         Console.WriteLine("\nEmployee list is empty....");
