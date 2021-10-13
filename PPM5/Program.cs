@@ -1,5 +1,6 @@
 ﻿using System;
 using Output;
+using Microsoft.EntityFrameworkCore.Design;
 namespace PPM5
 {
     public static class Program

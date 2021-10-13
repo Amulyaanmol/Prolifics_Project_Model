@@ -32,3 +32,6 @@ C:\Users\91707\source\Prolifics_Project_Model\Output\obj\Debug\net5.0\Output.csp
 C:\Users\91707\source\Prolifics_Project_Model\Output\obj\Debug\net5.0\Output.dll
 C:\Users\91707\source\Prolifics_Project_Model\Output\obj\Debug\net5.0\ref\Output.dll
 C:\Users\91707\source\Prolifics_Project_Model\Output\obj\Debug\net5.0\Output.pdb
+C:\Users\91707\source\Prolifics_Project_Model\Output\bin\Debug\net5.0\Output.runtimeconfig.json
+C:\Users\91707\source\Prolifics_Project_Model\Output\bin\Debug\net5.0\Output.runtimeconfig.dev.json
+C:\Users\91707\source\Prolifics_Project_Model\Output\obj\Debug\net5.0\Output.genruntimeconfig.cache

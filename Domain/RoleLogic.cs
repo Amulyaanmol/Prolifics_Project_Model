@@ -224,18 +224,34 @@ namespace Domain
             }
             return serializaAdoResult;
         }
-        public static void InsertProduct()
-        {
-           
-            using var db = new EFContext();
-            foreach (Role roleProperties in roleDetails)
-            {
-                roleProperties.RoleId;
-                roleProperties.RoleName;
-                db.Add(roleProperties);
-            }
-            db.SaveChanges();
-        }
 
+        public static ActionResult InsertRole()
+        {
+            ActionResult insertRoleResult = new() { IsPositiveResult = true };
+            try
+            {
+                if (roleDetails.Count > 0)
+                {
+                   
+                    using var db = new EFContext();
+                    db.Database.EnsureCreated();
+                    //roleDetails.ForEach(n => db.RoleSet.Add(n.RoleName))
+                    //foreach (Role roleProperties in roleDetails)
+                    //    db.RoleSet.Add(roleProperties)
+                    Role role = new();
+                   role.RoleName = "Garige";
+                    db.Add(role);
+                        db.SaveChanges();
+                }
+                else
+                    insertRoleResult.IsPositiveResult = false;
+            }
+            catch (Exception)
+            {
+                insertRoleResult.IsPositiveResult = false;
+                insertRoleResult.Message = "Error Occured at Employee File Serialization";
+            }
+            return insertRoleResult;
+        }
     }
 }

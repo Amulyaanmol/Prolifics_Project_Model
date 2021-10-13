@@ -20,3 +20,7 @@ C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.cspro
 C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.dll
 C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\ref\Model.dll
 C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.pdb
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.csproj.AssemblyReference.cache
+C:\Users\91707\source\Prolifics_Project_Model\Model\bin\Debug\net5.0\Model.runtimeconfig.json
+C:\Users\91707\source\Prolifics_Project_Model\Model\bin\Debug\net5.0\Model.runtimeconfig.dev.json
+C:\Users\91707\source\Prolifics_Project_Model\Model\obj\Debug\net5.0\Model.genruntimeconfig.cache

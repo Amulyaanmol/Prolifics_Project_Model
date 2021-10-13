@@ -184,7 +184,7 @@ namespace Output
                                 MainCall(option1);
                                 break;
                             case 'c':
-                                RoleLogic.InsertProduct();
+                                SaveAsDB_EFFile();
                                 option1 = DisplayMainMenu();
                                 MainCall(option1);
                                 break;
@@ -856,7 +856,12 @@ namespace Output
 
         private static void SaveAsDB_EFFile()
         {
-            throw new NotImplementedException();
+
+            var roleSerialize = RoleLogic.InsertRole();
+            if (roleSerialize.IsPositiveResult)
+                Console.WriteLine("\n-----Role details inserted into role table successfully-----");
+            else
+                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");
         }
 
         private static void SaveAsFile()
