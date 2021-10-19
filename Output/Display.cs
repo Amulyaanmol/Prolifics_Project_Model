@@ -856,8 +856,7 @@ namespace Output
 
         private static void SaveAsDB_EFFile()
         {
-
-            var roleSerialize = RoleLogic.InsertRole();
+            var roleSerialize = RoleLogic.SerializeEf();
             if (roleSerialize.IsPositiveResult)
                 Console.WriteLine("\n-----Role details inserted into role table successfully-----");
             else
@@ -874,6 +873,7 @@ namespace Output
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");
         }
+
 
     }
 }

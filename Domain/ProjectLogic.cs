@@ -43,10 +43,10 @@ namespace Domain
                     addProjectresults.IsPositiveResult = true;
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 addProjectresults.IsPositiveResult = false;
-                addProjectresults.Message = "\nSome Error Occured!! Please select right option";
+                addProjectresults.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return addProjectresults;
         }
@@ -79,10 +79,10 @@ namespace Domain
                 else
                     projectIdResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 projectIdResult.IsPositiveResult = false;
-                projectIdResult.Message = "\nSome Error Occured!! Please select right option";
+                projectIdResult.Message = "\nSome Error Occured!! Please select right option\n"+ exception.ToString();
             }
             return projectIdResult;
         }
@@ -117,10 +117,9 @@ namespace Domain
                 else
                     deleteEmployeeFromProjectResult.IsPositiveResult = false;
             }
-            catch (Exception)
-            {
-                deleteEmployeeFromProjectResult.IsPositiveResult = false;
-                deleteEmployeeFromProjectResult.Message = "\nSome Error Occured!! Please select right option";
+            catch (Exception exception) 
+            { 
+                deleteEmployeeFromProjectResult.IsPositiveResult = false; deleteEmployeeFromProjectResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString(); 
             }
             return deleteEmployeeFromProjectResult;
         }
@@ -140,10 +139,9 @@ namespace Domain
                     projectDetails.Single(projectProperties => projectProperties.ProjectId == _projectId).ListEmployee.Add(employeeIdProperty);
                 }
             }
-            catch (Exception)
-            {
-                addEmployeeToProjectResult.IsPositiveResult = false;
-                addEmployeeToProjectResult.Message = "\nSome Error Occured!! Please select right option";
+            catch (Exception exception)
+            { 
+                addEmployeeToProjectResult.IsPositiveResult = false; addEmployeeToProjectResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return addEmployeeToProjectResult;
         }
@@ -165,10 +163,10 @@ namespace Domain
                 else
                     serializeCollectioneResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 serializeCollectioneResult.IsPositiveResult = false;
-                serializeCollectioneResult.Message = "Error at Project Serialization";
+                serializeCollectioneResult.Message = "Error at Project Serialization\n" + exception.ToString();
             }
             return serializeCollectioneResult;
         }
@@ -204,10 +202,10 @@ namespace Domain
                 else
                     serializeTestFileResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 serializeTestFileResult.IsPositiveResult = false;
-                serializeTestFileResult.Message = "Error Occured at Employee File Serialization";
+                serializeTestFileResult.Message = "Error Occured at Employee File Serialization\n" + exception.ToString();
             }
             return serializeTestFileResult;
         }
@@ -227,10 +225,10 @@ namespace Domain
                 else
                     serializeADOFileResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 serializeADOFileResult.IsPositiveResult = false;
-                serializeADOFileResult.Message = "Error Occured at Employee File Serialization";
+                serializeADOFileResult.Message = "Error Occured at Employee File Serialization\n" + exception.ToString();
             }
             return serializeADOFileResult;
         }
@@ -272,7 +270,7 @@ namespace Domain
             catch (Exception e)
             {
                 serializaAdoResult.IsPositiveResult = false;
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.ToString());
             }
             return serializaAdoResult;
         }

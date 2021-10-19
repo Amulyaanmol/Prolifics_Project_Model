@@ -40,10 +40,10 @@ namespace Domain
                     addEmployeeResult.Message = "\nEmployee Details Created Successfully";
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 addEmployeeResult.IsPositiveResult = false;
-                addEmployeeResult.Message = "\nSome Error Occured!! Please select right option";
+                addEmployeeResult.Message = "\nSome Error Occured!! Please select right option\n"+ exception.ToString();
             }
             return addEmployeeResult;
         }
@@ -85,10 +85,10 @@ namespace Domain
                 else
                     deleteRoleFromEmployeeResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 deleteRoleFromEmployeeResult.IsPositiveResult = false;
-                deleteRoleFromEmployeeResult.Message = "\nSome Error Occured!! Please select right option";
+                deleteRoleFromEmployeeResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return deleteRoleFromEmployeeResult;
         }
@@ -103,10 +103,10 @@ namespace Domain
                 else
                     countResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 countResult.IsPositiveResult = false;
-                countResult.Message = "\nSome Error Occured!! Please select right option";
+                countResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return countResult;
         }
@@ -137,10 +137,10 @@ namespace Domain
                 else
                     EmployeeIdResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 EmployeeIdResult.IsPositiveResult = false;
-                EmployeeIdResult.Message = "\nSome Error Occured!! Please select right option";
+                EmployeeIdResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return EmployeeIdResult;
         }
@@ -209,9 +209,9 @@ namespace Domain
                 else
                     serializeCollectioneResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                serializeCollectioneResult.Message = "Error at Employee Serialization";
+                serializeCollectioneResult.Message = "Error at Employee Serialization\n" + exception.ToString();
                 serializeCollectioneResult.IsPositiveResult = false;
             }
             return serializeCollectioneResult;
@@ -232,10 +232,10 @@ namespace Domain
                 else
                     serializeTestFileResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 serializeTestFileResult.IsPositiveResult = false;
-                serializeTestFileResult.Message = "Error Occured at Employee File Serialization";
+                serializeTestFileResult.Message = "Error Occured at Employee File Serialization\n" + exception.ToString();
             }
             return serializeTestFileResult;
         }
@@ -255,10 +255,10 @@ namespace Domain
                 else
                     serializeADOFileResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 serializeADOFileResult.IsPositiveResult = false;
-                serializeADOFileResult.Message = "Error Occured at Employee File Serialization";
+                serializeADOFileResult.Message = "Error Occured at Employee File Serialization\n" + exception.ToString();
             }
             return serializeADOFileResult;
         }
@@ -291,7 +291,7 @@ namespace Domain
             catch (Exception e)
             {
                 serializaAdoResult.IsPositiveResult = false;
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.ToString());
             }
             return serializaAdoResult;
         }

@@ -1489,7 +1489,8 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "5.0.11",
-          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.11"
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.11",
+          "System.Data.SqlClient": "4.8.3"
         },
         "compile": {
           "bin/placeholder/Model.dll": {}
@@ -1505,7 +1506,8 @@
           "Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore": "5.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.11",
-          "Model": "1.0.0"
+          "Model": "1.0.0",
+          "System.Data.SqlClient": "4.8.3"
         },
         "compile": {
           "bin/placeholder/Output.dll": {}
@@ -5670,7 +5672,6 @@
       "Microsoft.EntityFrameworkCore >= 5.0.11",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.11",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.11",
-      "Newtonsoft.Json >= 13.0.1",
       "Output >= 1.0.0",
       "System.Data.SqlClient >= 4.8.3"
     ]
@@ -5731,10 +5732,6 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[5.0.11, )"
-          },
-          "Newtonsoft.Json": {
-            "target": "Package",
-            "version": "[13.0.1, )"
           },
           "System.Data.SqlClient": {
             "target": "Package",

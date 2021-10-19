@@ -40,10 +40,10 @@ namespace Domain
                     addRoleResult.Message = "\nRole Details Created Successfully";
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 addRoleResult.IsPositiveResult = false;
-                addRoleResult.Message = "\nSome Error Occured!! Please select right option";
+                addRoleResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return addRoleResult;
         }
@@ -76,10 +76,10 @@ namespace Domain
                 else
                     employeeClassRoleIdResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 employeeClassRoleIdResult.IsPositiveResult = false;
-                employeeClassRoleIdResult.Message = "\nSome Error Occured!! Please select right option";
+                employeeClassRoleIdResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return employeeClassRoleIdResult;
         }
@@ -94,10 +94,10 @@ namespace Domain
                 else
                     roleIdResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 roleIdResult.IsPositiveResult = false;
-                roleIdResult.Message = "\nSome Error Occured!! Please select right option";
+                roleIdResult.Message = "\nSome Error Occured!! Please select right option\n" + exception.ToString();
             }
             return roleIdResult;
         }
@@ -129,9 +129,9 @@ namespace Domain
                 else
                     serializeCollectioneResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                serializeCollectioneResult.Message = "Error at SerializeCollection";
+                serializeCollectioneResult.Message = "Error at SerializeCollection\n" + exception.ToString();
                 serializeCollectioneResult.IsPositiveResult = false;
             }
 
@@ -163,10 +163,10 @@ namespace Domain
                 else
                     serializeTestFileResult.IsPositiveResult = false;
             }
-            catch(Exception)
+            catch(Exception exception)
             {
                 serializeTestFileResult.IsPositiveResult = false;
-                serializeTestFileResult.Message = "Error Occured at Employee File Serialization";
+                serializeTestFileResult.Message = "Error Occured at Employee File Serialization\n" + exception.ToString();
             }
             return serializeTestFileResult;
         }
@@ -186,10 +186,10 @@ namespace Domain
                 else
                     serializeADOFileResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 serializeADOFileResult.IsPositiveResult = false;
-                serializeADOFileResult.Message = "Error Occured at Employee File Serialization";
+                serializeADOFileResult.Message = "Error Occured at Employee File Serialization\n" + exception.ToString();
             }
             return serializeADOFileResult;
         }
@@ -220,38 +220,72 @@ namespace Domain
             catch (Exception e)
             {
                 serializaAdoResult.IsPositiveResult = false;
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.ToString());
             }
             return serializaAdoResult;
         }
 
-        public static ActionResult InsertRole()
+        //public static void SerializeEfFile(Role roleProperties)
+        //{
+
+        //    try
+        //    {
+
+        //        var newRole = new Role()
+        //        {
+        //            RoleId = roleProperties.RoleId,
+        //            RoleName = roleProperties.RoleName
+        //        };
+        //        using var connection = new PpmContext();
+        //        //// Role role = new()
+        //        //// role.RoleName = Name.ToString()
+        //        // //connection.Add(role)
+        //        //// connection.SaveChanges()
+        //        // List<Role> roles = new()
+        //        //foreach (Role roleProperties in roleDetails)
+        //            //roles.Add(roleProperties);
+        //        connection.Role.Add(newRole);
+        //        var result= connection.SaveChanges();
+        //        //if (result > 0)
+        //        //    SerializeEf(true);
+
+        //        //else
+        //        //    SerializeEf(false);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine(e.Message);
+        //    }
+
+        //}
+        public static ActionResult SerializeEf()
         {
-            ActionResult insertRoleResult = new() { IsPositiveResult = true };
+            ActionResult serializeEfResult = new() { IsPositiveResult = true };
+            using var db = new PpmContext();
             try
             {
-                if (roleDetails.Count > 0)
+                foreach (Role role in roleDetails)
                 {
-                   
-                    using var db = new EFContext();
-                    db.Database.EnsureCreated();
-                    //roleDetails.ForEach(n => db.RoleSet.Add(n.RoleName))
-                    //foreach (Role roleProperties in roleDetails)
-                    //    db.RoleSet.Add(roleProperties)
-                    Role role = new();
-                   role.RoleName = "Garige";
-                    db.Add(role);
-                        db.SaveChanges();
+                    Role roleItem = new()
+                    {
+                        RoleId = role.RoleId,
+                        RoleName = role.RoleName
+                    };
+                    db.Add(roleItem);
                 }
+                var result = db.SaveChanges();
+                if (result > 0)
+                    serializeEfResult.IsPositiveResult = true;
                 else
-                    insertRoleResult.IsPositiveResult = false;
+                   serializeEfResult.IsPositiveResult = false;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                insertRoleResult.IsPositiveResult = false;
-                insertRoleResult.Message = "Error Occured at Employee File Serialization";
+                Console.WriteLine(e.ToString());
             }
-            return insertRoleResult;
+            return serializeEfResult;
         }
+
+
     }
 }
