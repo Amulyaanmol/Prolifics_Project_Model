@@ -263,8 +263,6 @@ namespace Output
             var displayEmployees = employeeLogic.DisplayAll();
             try
             {
-                if (displayEmployees.IsPositiveResult)
-                {
                     Console.Write("\nEnter following information to add new Project:\nEnter Project ID (Only Numeric) - ");
                     project.ProjectId = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Enter Project Name - ");
@@ -293,12 +291,14 @@ namespace Output
                         Console.Write("Budget Can't be Negative...! Input Project Name again...\nEnter the Budget - ");
                         project.Budget = Convert.ToInt64(Console.ReadLine());
                     }
-                    Console.Write(@"Do you want to add Employee to the Project List? Y\N - ");
-                    char choice = Console.ReadKey().KeyChar;
-                    Console.WriteLine("\n");
-                    switch (char.ToUpper(choice))
-                    {
-                        case 'Y':
+                if (displayEmployees.IsPositiveResult)
+                {
+                    //Console.Write(@"Do you want to add Employee to the Project List? Y\N - ")
+                    //char choice = Console.ReadKey().KeyChar
+                    //Console.WriteLine("\n")
+                    //switch char.ToUpper(choice))
+                    //
+                    //    case 'Y':
                             Console.WriteLine("Available Employees in the List are --- \nID - Name\n------------");
                             foreach (Employee employeeProperties in displayEmployees.Results)
                                 Console.WriteLine(employeeProperties.EmployeeId + " - " + employeeProperties.EmployeeName);
@@ -319,21 +319,21 @@ namespace Output
                             }
                             else
                                 Console.WriteLine("\nAdding Project Details is not Successful\nEnter the Correct Count to add Employee...!!!!!");
-                            break;
-                        case 'N':
-                            var addProjectResults = projectLogic.Insert(project);
-                            if (addProjectResults.IsPositiveResult)
-                                Console.WriteLine(addProjectResults.Message + " Without Employee details...");
-                            else
-                                Console.WriteLine("\nAdding Project Details is not Successful\nProject already exists with id - " + project.ProjectId);
-                            break;
-                        default:
-                            Console.WriteLine("Some Error Occured!! Please select right option");
-                            MainCall(1);
-                            break;
-                    }
+                    //        break
+                    //    case 'N':
+                    //        var addProjectResults = projectLogic.Insert(project)
+                    //        if (addProjectResults.IsPositiveResult
+                    //            Console.WriteLine(addProjectResults.Message + " Without Employee details...")
+                    //        else
+                    //            Console.WriteLine("\nAdding Project Details is not Successful\nProject already exists with id - " + project.ProjectId)
+                    //        break
+                    //    default:
+                    //        Console.WriteLine("Some Error Occured!! Please select right option")
+                    //        MainCall(1)
+                    //        break
+                    //
                 }
-                else Console.WriteLine("Empty Employee List....\nAdding Project Details with Employee details is not Successful");
+                //else Console.WriteLine("Empty Employee List....\nAdding Project Details with Employee details is not Successful")
             }
             catch (Exception)
             {
@@ -476,6 +476,7 @@ namespace Output
         public static bool AddEmployee()
         {
             Employee employee = new();
+            //Project project = new()
             RoleLogic roleLogic = new();
             try
             {
@@ -523,6 +524,8 @@ namespace Output
                     }
                     Console.Write("Enter Role id (Only Numeric) from above Role list - ");
                     employee.EmployeeRoleId = Convert.ToInt32(Console.ReadLine());
+                    //Console.Write("Enter Project id (Only Numeric) from above Role list - ")
+                    //employee.ProjectId = Convert.ToInt32(Console.ReadLine())
                 }
                 else
                     Console.Write("Empty Role List....");
@@ -857,8 +860,10 @@ namespace Output
         private static void SaveAsDB_EFFile()
         {
             var roleSerialize = RoleLogic.SerializeEf();
-            if (roleSerialize.IsPositiveResult)
-                Console.WriteLine("\n-----Role details inserted into role table successfully-----");
+            //var projectSerialize = ProjectLogic.SerializeEf();
+            var employeeSerialize = EmployeeLogic.SerializeEf();
+            if (roleSerialize.IsPositiveResult||/* projectSerialize.IsPositiveResult || */employeeSerialize.IsPositiveResult)
+                Console.WriteLine("\n-----PPM details Saved into Respective Tables successfully-----");
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");
         }
@@ -873,7 +878,6 @@ namespace Output
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");
         }
-
 
     }
 }

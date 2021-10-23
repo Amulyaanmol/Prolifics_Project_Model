@@ -225,59 +225,31 @@ namespace Domain
             return serializaAdoResult;
         }
 
-        //public static void SerializeEfFile(Role roleProperties)
-        //{
-
-        //    try
-        //    {
-
-        //        var newRole = new Role()
-        //        {
-        //            RoleId = roleProperties.RoleId,
-        //            RoleName = roleProperties.RoleName
-        //        };
-        //        using var connection = new PpmContext();
-        //        //// Role role = new()
-        //        //// role.RoleName = Name.ToString()
-        //        // //connection.Add(role)
-        //        //// connection.SaveChanges()
-        //        // List<Role> roles = new()
-        //        //foreach (Role roleProperties in roleDetails)
-        //            //roles.Add(roleProperties);
-        //        connection.Role.Add(newRole);
-        //        var result= connection.SaveChanges();
-        //        //if (result > 0)
-        //        //    SerializeEf(true);
-
-        //        //else
-        //        //    SerializeEf(false);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine(e.Message);
-        //    }
-
-        //}
         public static ActionResult SerializeEf()
         {
-            ActionResult serializeEfResult = new() { IsPositiveResult = true };
+            ActionResult serializeEfResult = new() { IsPositiveResult = false };
             using var db = new PpmContext();
             try
             {
+                List<Role> roles = db.RoleEf.ToList();
                 foreach (Role role in roleDetails)
                 {
-                    Role roleItem = new()
+                    if(roles.Exists(roleProperties=>roleProperties.RoleId==role.RoleId))
                     {
-                        RoleId = role.RoleId,
-                        RoleName = role.RoleName
-                    };
-                    db.Add(roleItem);
+                        var removeId = roles.SingleOrDefault(roleProperties => roleProperties.RoleId == role.RoleId);
+                        db.RoleEf.Remove(removeId);
+                        db.SaveChanges();
+                        db.RoleEf.Add(role);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.RoleEf.Add(role);
+                        db.SaveChanges();
+                    }
                 }
-                var result = db.SaveChanges();
-                if (result > 0)
-                    serializeEfResult.IsPositiveResult = true;
-                else
-                   serializeEfResult.IsPositiveResult = false;
+                serializeEfResult.IsPositiveResult = true;
+                
             }
             catch (Exception e)
             {
@@ -285,7 +257,6 @@ namespace Domain
             }
             return serializeEfResult;
         }
-
 
     }
 }

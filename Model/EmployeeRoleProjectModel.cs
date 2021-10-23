@@ -12,6 +12,7 @@ namespace Model
         [Phone]
         public string Contact { get; set; }
         public int EmployeeRoleId { get; set; }
+        public int ProjectId { get; set; }
 
     }
     public class Role
@@ -30,4 +31,5 @@ namespace Model
         public List<Employee> ListEmployee { get; set; }
 
     }
+
 }

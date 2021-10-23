@@ -15,7 +15,7 @@ namespace Domain
 {
     public class ProjectLogic : IEntityOperation<Project>
     {
-        static readonly List<Project> projectDetails = new();
+        public static  readonly List<Project> projectDetails = new();
 
         public ActionResult Insert(Project projectProperty)
         {
@@ -262,7 +262,7 @@ namespace Domain
                         serializaAdoResult.Message = "Project details Added with Employee Details....!!!";
                     }
                     else
-                        Console.WriteLine("\nEmployee list is empty....");
+                        Console.WriteLine("\nEmployee list is empty....\nProject details not added..!!!");
                 }
                 sqlConnection.Close();
                 serializaAdoResult.IsPositiveResult = true;
@@ -273,6 +273,45 @@ namespace Domain
                 Debug.WriteLine(e.ToString());
             }
             return serializaAdoResult;
+        }
+
+        public static ActionResult SerializeEf()
+        {
+            ActionResult serializeEfResult = new() { IsPositiveResult = false };
+            using var db = new PpmContext();
+            try
+            {
+                List<Project> pro = db.ProjectEf.ToList();
+                Project projects = new();
+                foreach (Project project in projectDetails)
+                {
+                    projects.ProjectId = project.ProjectId;
+                    projects.ProjectName = project.ProjectName;
+                    projects.OpenDate = project.OpenDate;
+                    projects.CloseDate = project.CloseDate;
+                    projects.Budget = project.Budget;
+                    if (pro.Exists(projectProperties => projectProperties.ProjectId == projects.ProjectId))
+                    {
+                        var removeId = pro.SingleOrDefault(projectProperties => projectProperties.ProjectId == projects.ProjectId);
+                        db.ProjectEf.Remove(removeId);
+                        db.SaveChanges();
+                        db.ProjectEf.Add(projects);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.ProjectEf.Add(projects);
+                        db.SaveChanges();
+                    }
+                }
+                serializeEfResult.IsPositiveResult = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return serializeEfResult;
         }
 
     }

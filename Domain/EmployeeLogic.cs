@@ -15,6 +15,7 @@ namespace Domain
 {
     public class EmployeeLogic : IEntityOperation<Employee>
     {
+        
         static readonly List<Employee> employeeDetails = new();
 
         public ActionResult Insert(Employee employeeProperty)
@@ -180,7 +181,6 @@ namespace Domain
                     //using var stream = new FileStream(filename, FileMode.CreateNew)
                     //var xmlSerilizer = new XmlSerializer(typeof(List<Employee>))
                     //xmlSerilizer.Serialize(stream, employeeDetails)
-
                     // TextWriter writer = new StreamWriter(filename)
                     //xsSubmit.Serialize(writer, employeeDetails)
                     //XmlSerializer  x= new (typeof(MyObject))
@@ -192,19 +192,13 @@ namespace Domain
                     //TextWriter writer1 = new StreamWriter(filename)
                     xml = filename.ToString();
                     //try
-                    //
                     //    var xmlserializer = new XmlSerializer(typeof(T))
                     //    var stringWriter = new StringWriter()
                     //    using (var writer = XmlWriter.Create(stringWriter))
-                    //    
                     //        xmlserializer.Serialize(writer, value)
                     //        return stringWriter.ToString()
-                    //    
-                    //
                     //catch Exception ex
-                    //
                     //    throw new Exception("An error occurred", ex)
-                    //
                 }
                 else
                     serializeCollectioneResult.IsPositiveResult = false;
@@ -295,5 +289,40 @@ namespace Domain
             }
             return serializaAdoResult;
         }
+
+        public static ActionResult SerializeEf()
+        {
+            ActionResult serializeEfResult = new() { IsPositiveResult = false };
+            using var db = new PpmContext();
+            try
+            {
+                List<Employee> e = db.EmployeeEf.ToList();
+                foreach (Employee employee in employeeDetails)
+                {
+                    if (e.Exists(roleProperties => roleProperties.EmployeeId == employee.EmployeeId))
+                    {
+                        var removeId = e.SingleOrDefault(roleProperties => roleProperties.EmployeeId == employee.EmployeeId);
+                        db.EmployeeEf.Remove(removeId);
+                        db.SaveChanges();
+                        db.EmployeeEf.Add(employee);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.EmployeeEf.Add(employee);
+                        db.SaveChanges();
+                    }
+                }
+                serializeEfResult.IsPositiveResult = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return serializeEfResult;
+        }
+
+
     }
 }

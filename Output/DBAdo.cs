@@ -6,6 +6,7 @@ namespace Domain
 {
     public static class DBAdo
     {
+
         public static bool CheckDB(string dbName)
         {
             bool result = false;
@@ -195,5 +196,6 @@ namespace Domain
             }
             return true;
         }
+
     }
 }
