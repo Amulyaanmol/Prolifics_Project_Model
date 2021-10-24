@@ -840,7 +840,7 @@ namespace Output
             var employeeSerialize = EmployeeLogic.SerializeXMLFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.xml");
             var projectSerialize=ProjectLogic.SerializeXMLFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.xml");
             var roleSerialize = RoleLogic.SerializeXMLFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.xml");
-            if(employeeSerialize.IsPositiveResult||projectSerialize.IsPositiveResult||roleSerialize.IsPositiveResult)
+            if(employeeSerialize.IsPositiveResult && projectSerialize.IsPositiveResult && roleSerialize.IsPositiveResult)
                 Console.WriteLine("\n-----PPM Details Saved Successfully-----");
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved Successfully-----");
@@ -851,7 +851,7 @@ namespace Output
             var roleSerialize = RoleLogic.SerializeJSONFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.json");
             var projectSerialize = ProjectLogic.SerializeJSONFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.json");
             var employeeSerialize = EmployeeLogic.SerializeJSONFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.json");
-            if (employeeSerialize.IsPositiveResult || projectSerialize.IsPositiveResult || roleSerialize.IsPositiveResult)
+            if (employeeSerialize.IsPositiveResult && projectSerialize.IsPositiveResult && roleSerialize.IsPositiveResult)
                 Console.WriteLine("\n-----PPM Details Saved as JSON File Successfully-----");
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as JSON File-----");
@@ -860,12 +860,23 @@ namespace Output
         private static void SaveAsDB_EFFile()
         {
             var roleSerialize = RoleLogic.SerializeEf();
-            //var projectSerialize = ProjectLogic.SerializeEf();
+            var projectSerialize = ProjectLogic.SerializeEf();
             var employeeSerialize = EmployeeLogic.SerializeEf();
-            if (roleSerialize.IsPositiveResult||/* projectSerialize.IsPositiveResult || */employeeSerialize.IsPositiveResult)
-                Console.WriteLine("\n-----PPM details Saved into Respective Tables successfully-----");
+            if (projectSerialize.IsPositiveResult)
+            {
+                if (roleSerialize.IsPositiveResult && employeeSerialize.IsPositiveResult)
+                    Console.WriteLine("\n-----PPM details Saved into Respective Tables successfully-----");
+                else
+                    Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");
+            }
             else
-                Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");
+            {
+                if (roleSerialize.IsPositiveResult)
+                    Console.WriteLine("Only Role is saved Successfully");
+                else
+                    Console.WriteLine("Nothing saved...!");
+
+            }
         }
 
         private static void SaveAsFile()
@@ -873,7 +884,7 @@ namespace Output
             var employeeSerialize = EmployeeLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Employee.txt");
             var projectSerialize = ProjectLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Project.txt");
             var roleSerialize = RoleLogic.SerializeTextFile(@"C:\Users\91707\source\Prolifics_Project_Model\Model\AppData\Role.txt");
-            if (employeeSerialize.IsPositiveResult || projectSerialize.IsPositiveResult || roleSerialize.IsPositiveResult)
+            if (employeeSerialize.IsPositiveResult && projectSerialize.IsPositiveResult && roleSerialize.IsPositiveResult)
                 Console.WriteLine("\n-----PPM Details Saved as Text File Successfully-----");
             else
                 Console.WriteLine("\nEmpty PPM!!!!...\n-----Could not be Saved as Text File-----");

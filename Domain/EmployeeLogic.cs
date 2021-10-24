@@ -289,19 +289,23 @@ namespace Domain
             }
             return serializaAdoResult;
         }
-
+        
         public static ActionResult SerializeEf()
         {
             ActionResult serializeEfResult = new() { IsPositiveResult = false };
             using var db = new PpmContext();
             try
             {
-                List<Employee> e = db.EmployeeEf.ToList();
+                var projectId = 0 ;
+                List<Employee> employees = db.EmployeeEf.ToList();
                 foreach (Employee employee in employeeDetails)
                 {
-                    if (e.Exists(roleProperties => roleProperties.EmployeeId == employee.EmployeeId))
+                    var projectDetails = ProjectLogic.projectDetails.Where(p => p.ListEmployee.Exists(e => e.EmployeeId == employee.EmployeeId)).ToList();
+                    projectId = projectDetails[0].ProjectId;
+                    employee.ProjectId = projectId;
+                    if (employees.Exists(roleProperties => roleProperties.EmployeeId == employee.EmployeeId))
                     {
-                        var removeId = e.SingleOrDefault(roleProperties => roleProperties.EmployeeId == employee.EmployeeId);
+                        var removeId = employees.SingleOrDefault(roleProperties => roleProperties.EmployeeId == employee.EmployeeId);
                         db.EmployeeEf.Remove(removeId);
                         db.SaveChanges();
                         db.EmployeeEf.Add(employee);
@@ -322,7 +326,5 @@ namespace Domain
             }
             return serializeEfResult;
         }
-
-
     }
 }

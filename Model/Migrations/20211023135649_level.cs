@@ -46,7 +46,7 @@ namespace Model.Migrations
                     EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmployeeRoleId = table.Column<int>(type: "int", nullable: false),
-                    ProjectId = table.Column<int>(type: "int", nullable: true)
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

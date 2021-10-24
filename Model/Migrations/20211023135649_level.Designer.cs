@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.OData.Edm;
 using Model;
 
 namespace Model.Migrations
@@ -58,11 +59,11 @@ namespace Model.Migrations
                     b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("CloseDate")
-                        .HasColumnType("datetime2");
+                    b.Property<Date>("CloseDate")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("OpenDate")
-                        .HasColumnType("datetime2");
+                    b.Property<Date>("OpenDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("ProjectName")
                         .HasColumnType("nvarchar(max)");
